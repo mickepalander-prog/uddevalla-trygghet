@@ -23,11 +23,17 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Setup Expo & Android Tools
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
       - name: Install dependencies
         run: npm ci
 
       - name: Build Android APK with EAS
-        run: npx eas-cli build --platform android --profile preview --local
+        run: eas build --platform android --profile preview --local
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
