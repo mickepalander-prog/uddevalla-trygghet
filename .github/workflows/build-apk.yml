@@ -1,16 +1,17 @@
 name: Build Android APK
 
 on:
-  workflow_dispatch: # Gör att du kan starta bygget manuellt från GitHub
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -19,26 +20,22 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
           distribution: 'temurin'
+          java-version: '17'
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+        uses: kddnewton/setup-android@v2
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Setup Expo / EAS
-        uses: expo/expo-github-action@v8
-        with:
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
-
-      - name: Build APK locally on GitHub runner
-        run: npx eas-cli build --platform android --profile preview --local --non-interactive
+      - name: Build Android APK with EAS
+        run: npx eas-cli build --platform android --profile preview --local
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: uddevalla-trygghet-preview.apk
+          name: uddevalla-trygghet-apk
           path: '*.apk'
