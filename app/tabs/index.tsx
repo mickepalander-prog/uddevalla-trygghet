@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { createClient } from '@supabase/supabase-js';
 
-// Dina riktiga Supabase-uppgifter
 const SUPABASE_URL = 'https://kmvubkqmkvcjttocsrnf.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_rBU_QjFOC41J08Yc6vL3w_s-ZZr5QD';
 
